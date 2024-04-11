@@ -52,12 +52,12 @@ if ($is_post_req) {
         echo "Login riuscito. Benvenuto!"; // L'utente è autenticato con successo
         // L'utente esiste, impostare la variabile di sessione
         $_SESSION['logged_in'] = true;
-        $html_login = "Login avvenuto con successo.<br>";
-        $html_login .= "<a href='welcome.php'>Benvenuto</a><br>";
-        $html_login .= "<a href='logout.php'>Logout</a>";
+        $html_loginok = "Login avvenuto con successo.<br>";
+        $html_loginok .= "<a href='welcome.php'>Benvenuto</a><br>";
+        $html_loginok .= "<a href='logout.php'>Logout</a>";
         $login_passed = true;
     } else {
-        $html_login = "Username o password non validi.";
+        $html_loginno = "Username o password non validi.";
     }
 }
 
@@ -73,10 +73,10 @@ $html_logged .= "<br><a href='welcome.php'>Benvenuto</a><br>";
 $html_logged .= "<a href='logout.php'>Logout</a>";
 
 if($is_post_req && $login_passed) {
-    $html = $html_login;
+    $html = $html_loginok;
 } else {
     $html .= $html_form;
-    $html .= $html_login;
+    $html .= $html_loginno;
 }
 
 ?>
