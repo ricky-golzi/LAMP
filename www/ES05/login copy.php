@@ -1,6 +1,20 @@
 <?php
 session_start();
 
+$self=$_SERVER["PHP_SELF"];
+$html_form = <<<FORM
+    <form action="$self" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+    <br>
+    <a href="register.php">Registrati</a><br>
+    <a href="reset_password.php">Resetta password</a>
+FORM;
+
 //Recuperodati
 $is_post_req= $_SERVER["REQUEST_METHOD"] == "POST";
 $is_user_logged = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
@@ -10,14 +24,15 @@ $password = $_POST['password'] ?? "";
 //per debug
 echo "-" . $is_post_req . "-" . $is_user_logged . "-" . $username . "-" . $password;
 
-
 // Verifica se l'utente è già autenticato
 if ($is_user_logged) {
-    echo "Login già effettuato.";
-    echo "<br><a href='welcome.php'>Benvenuto</a><br>";
-    echo "<a href='logout.php'>Logout</a>";
-    exit();
+    $html_logged = "Login già effettuato.";
+    $html_logged .= "<br><a href='welcome.php'>Benvenuto</a><br>";
+    $html_logged .= "<a href='logout.php'>Logout</a>";
 }
+$html_logged = "Login già effettuato.";
+$html_logged .= "<br><a href='welcome.php'>Benvenuto</a><br>";
+$html_logged .= "<a href='logout.php'>Logout</a>";
 
 
 
@@ -57,6 +72,12 @@ if (sdgf) {
     // Chiudi la connessione
     $conn->close();
 }
+
+
+
+$html = $html_logged;
+$html .= $html_form;
+
 ?>
 
 <!DOCTYPE html>
@@ -66,15 +87,6 @@ if (sdgf) {
 </head>
 <body>
     <h2>Login</h2>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br>
-        <input type="submit" value="Login">
-    </form>
-    <br>
-    <a href="register.php">Registrati</a><br>
-    <a href="reset_password.php">Resetta password</a>
+    <?=$html?>
 </body>
 </html>
